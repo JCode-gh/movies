@@ -1,10 +1,14 @@
 <template>
-
+<div>
+  <Nav/>
+</div>
 </template>
 
 <script>
+import Nav from "../components/Home/Nav";
 export default {
-  name: "Favorites"
+  name: "Favorites",
+  components: {Nav}
 }
 </script>
 
