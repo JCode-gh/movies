@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     userinput : "",
-    searchedResult : []
+    searchedResult : [],
+    favoriteMovies : []
   },
   mutations: {
   },

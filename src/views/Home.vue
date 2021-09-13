@@ -15,6 +15,11 @@ export default {
   components: {
     Nav,
     Movies
+  },
+  mounted() {
+    if (!localStorage.getItem("favoriteMovies")){
+      localStorage.setItem('favoriteMovies',"");
+    }
   }
 }
 </script>

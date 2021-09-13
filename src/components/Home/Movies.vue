@@ -10,6 +10,7 @@
         <router-link :to="'/movieinfo'+`?${movie.id}`">
           <h5 class="card-title">{{ movie.title }}</h5>
         </router-link>
+        <input type="button" @click="addToFavorites(movie)" value="Add To Favorites">
       </div>
     </div>
   </div>
@@ -27,7 +28,16 @@ export default {
 
   },
   methods : {
-
+    addToFavorites(movie){
+      if (localStorage.getItem("favoriteMovies") !== ""){
+        this.$store.state.favoriteMovies.push(movie);
+        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
+      }
+      else {
+        this.$store.state.favoriteMovies.push(movie);
+        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
+      }
+    }
   },
   beforeMount() {
     this.$store.state.searchedResult = [];
