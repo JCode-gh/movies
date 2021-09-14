@@ -19,6 +19,16 @@
           <input type="button" style="color: white" class="btn bg-gradient bg-danger btn-outline-danger my-2 my-sm-0"  @click="searchClicked" value="Search">
       </div>
     </nav>
+
+    <nav class="d-flex justify-content-center p-2" id="filter" v-if="genresList.genres">
+
+      <h5 id="genre">Genre</h5>
+
+      <select @change="genreChange">
+        <option v-for="genre in genresList.genres" :value="genre.id" :key="genre.id">{{genre.name}}</option>
+      </select>
+
+    </nav>
   </div>
 </template>
 
@@ -28,9 +38,23 @@ export default {
   data(){
     return {
       userInput : "",
+      genresList : []
     }
   },
   methods : {
+    genreChange(event){
+      this.$store.state.searchedResult = [];
+      const genreId = event.target.value
+      let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
+      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreId}`)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(movies => {
+            this.$store.state.searchedResult = movies.results;
+            console.log(movies.results);
+          })
+    },
     pushFavorites(){
       this.$router.push('/favorites');
     },
@@ -81,8 +105,16 @@ export default {
       }
     }
   },
-  mounted() {
-
+  beforeMount() {
+    let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
+    fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(genreListFull => {
+          this.genresList = genreListFull;
+          console.log(genreListFull);
+        })
   },
 }
 </script>
@@ -94,6 +126,17 @@ export default {
   margin: auto;
   color: black;
   border-radius: .25rem;
+}
+select {
+  outline: none;
+}
+#filter {
+  border-top: 2px dotted white;
+}
+#genre {
+  margin-bottom: 0 !important;
+  margin-right: 20px;
+  color: lightgrey;
 }
 sup {
 padding: 10px;

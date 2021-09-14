@@ -18,15 +18,19 @@
       </div>
     </div>
   </div>
+  <div v-else>
+    <LoadingSpinner/>
+  </div>
 </div>
 
 
 </template>
 
 <script>
+import LoadingSpinner from "../LoadingAnimation/LoadingSpinner";
 export default {
   name: "TopMovies",
-  components: {},
+  components: {LoadingSpinner},
   data(){
     return {
       isAdded : Boolean

@@ -13,8 +13,7 @@
             <a @click="addToFavorites(movie, index)">
               <font-awesome-icon id="faicon" class="faicons" :icon="['far', 'heart']" />
             </a>
-            <div class="hello">
-
+            <div>
               <div>
                 <input v-if="movie.homepage !== '' && !movie.homepage.includes('netflix')"
                        type="button" id="website" value="Visit Website"
@@ -22,14 +21,8 @@
 
                 <input v-if="movie.homepage !== '' && movie.homepage.includes('netflix')" type="button" value="Watch on Netflix"
                        @click="openWebsite(movie)">
-
               </div>
             </div>
-
-
-
-
-
             <input type="button" id="goBack" value="Go back"
                    @click="$router.push('/');">
           </div>
@@ -37,17 +30,22 @@
       </div>
     </div>
     <div v-else>
-      <div class="classic-1"></div>
+      <LoadingSpinner/>
     </div>
   </div>
+  <AltTitles :collectionTitles="collectionTitles"/>
 </template>
 
 <script>
+import AltTitles from "./AltTitles";
+import LoadingSpinner from "../LoadingAnimation/LoadingSpinner";
 export default {
   name: "MovieInfo",
+  components: {LoadingSpinner, AltTitles},
   data: function () {
     return {
-      movie: null
+      movie: null,
+      collectionTitles : null
     }
   },
   methods : {
@@ -65,8 +63,6 @@ export default {
       }
 
       document.getElementById("faicon").style.color = "red";
-      //TODO: Set color of fontawesome Icon to red when pressed.
-      //PROBABLY HAVE TO USE INDEX
 
     },
   },
@@ -75,41 +71,38 @@ export default {
     let id = queryString.split('?')[1];
     let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
 
+    //Fetching details about movie
     fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
         .then(function (response) {
           return response.json();
         })
         .then(movie => {
           this.movie = movie;
-          console.log(movie);
+          console.log("movie",movie);
+
+          // Fetching collections of movie
+
+          fetch(`https://api.themoviedb.org/3/search/collection?api_key=${apiKey}&language=en-US&query=${movie.original_title}`)
+              .then(function (response) {
+                return response.json();
+              })
+              .then(collection => {
+                this.collectionTitles = collection.titles;
+                console.log(collection);
+              })
         })
+
+
   }
 }
 </script>
 
 <style scoped>
+
 * {
   transition: color 0.3s;
 }
 
-.classic-1 {
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 30px;
-  display: grid;
-}
-.classic-1:before,
-.classic-1:after {
-  content:"Loading...";
-  grid-area: 1/1;
-  -webkit-mask:linear-gradient(90deg,#000 50%,#0000 0) 0 50%/2ch 100%;
-  animation:c1 1s infinite cubic-bezier(0.5,220,0.5,-220);
-}
-.classic-1:after {
-  -webkit-mask-position:1ch 50%;
-  --s:-1;
-}
-@keyframes c1 {100%{transform: translateY(calc(var(--s,1)*0.1%));}}
 img {
   width: 300px;
   box-shadow: 0 0 10px -2px black;
