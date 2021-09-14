@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div v-else>
+  <div v-else-if="$store.state.hasResults === true && $store.state.searchedResult.length <= 0">
     <LoadingSpinner/>
   </div>
 </div>
@@ -39,24 +39,11 @@ export default {
   computed : {
   },
   methods : {
-    addToFavorites(movie, index){
-      if (localStorage.getItem("favoriteMovies") !== ""){
-        this.$store.state.favoriteMovies.push(movie);
-        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
-      }
-      else {
-        this.$store.state.favoriteMovies.push(movie);
-        this.$store.state.favoriteMovies = [...new Map(this.$store.state.favoriteMovies.map(item => [item["id"], item])).values()]
-        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
-      }
-      document.querySelectorAll(".faicons")[index].style.color = "red";
-      document.querySelectorAll(".card")[index].style.border = "3px solid red";
-
-        //TODO: RETURN ARRAY WITHOUT DUPLICATES
-
-
-      //this.$store.state.favoriteMovies = this.$store.state.favoriteMovies.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)
-    },
+    addToFavorites(movie, index) {
+      this.$store.commit('SET_MOVIES', movie);
+      document.querySelectorAll('.faicons')[index].style.color = 'red';
+      document.querySelectorAll('.card')[index].style.border = '3px solid red';
+    }
   },
   beforeMount() {
     this.$store.state.searchedResult = [];

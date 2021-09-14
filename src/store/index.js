@@ -8,6 +8,14 @@ export default createStore({
     hasResults : true
   },
   mutations: {
+    SET_MOVIES(state, payload) {
+      state.favoriteMovies = state.favoriteMovies || [];
+      console.log(state.favoriteMovies);
+      if (!state.favoriteMovies.some((obj) => obj.id === payload.id)) {
+        state.favoriteMovies.push(payload)
+      }
+      localStorage.setItem('favoriteMovies', JSON.stringify(state.favoriteMovies))
+    },
   },
   actions: {
   },

@@ -19,15 +19,11 @@
           <input type="button" style="color: white" class="btn bg-gradient bg-danger btn-outline-danger my-2 my-sm-0"  @click="searchClicked" value="Search">
       </div>
     </nav>
-
-    <nav class="d-flex justify-content-center p-2" id="filter" v-if="genresList.genres">
-
+    <nav class="d-flex justify-content-center p-2 fixed-bottom" id="filter" v-if="genresList.genres">
       <h5 id="genre">Genre</h5>
-
       <select @change="genreChange">
         <option v-for="genre in genresList.genres" :value="genre.id" :key="genre.id">{{genre.name}}</option>
       </select>
-
     </nav>
   </div>
 </template>

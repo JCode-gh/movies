@@ -52,19 +52,13 @@ export default {
     openWebsite(movie){
       window.open(`${movie.homepage}`)
     },
-    addToFavorites(movie, index){
-      if (localStorage.getItem("favoriteMovies") !== ""){
-        this.$store.state.favoriteMovies.push(movie);
-        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
-      }
-      else {
-        this.$store.state.favoriteMovies.push(movie);
-        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
-      }
-
-      document.getElementById("faicon").style.color = "red";
-
-    },
+    async addToFavorites(movie, index) {
+      await this.$store.commit('SET_MOVIES', movie);
+      // this.$nextTick(() => {
+      //   document.querySelectorAll('.faicons')[index].style.color = 'red';
+      //   document.querySelectorAll('.card')[index].style.border = '3px solid red';
+      // })
+    }
   },
   beforeMount() {
     const queryString = window.location.search;
