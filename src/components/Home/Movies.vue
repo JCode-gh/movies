@@ -71,7 +71,7 @@ export default {
   font-size: 20px;
 }
 .faicons:hover {
-  color: red;
+  color: red !important;
 }
 a {
   text-decoration: none;
