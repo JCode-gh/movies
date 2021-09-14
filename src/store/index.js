@@ -5,7 +5,7 @@ export default createStore({
     userinput : "",
     searchedResult : [],
     favoriteMovies : [],
-    hasResults : false
+    hasResults : true
   },
   mutations: {
   },

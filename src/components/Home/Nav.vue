@@ -36,6 +36,7 @@ export default {
     },
     showPopularMovies(){
       this.$router.push('/');
+      this.$store.state.hasResults = true;
       //this.userInput = "";
       this.$store.state.searchedResult = [];
       let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";

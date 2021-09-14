@@ -24,10 +24,9 @@
 </template>
 
 <script>
-import ImageLoader from "../../Image-Loader";
 export default {
   name: "TopMovies",
-  components: {ImageLoader},
+  components: {},
   data(){
     return {
       isAdded : Boolean
