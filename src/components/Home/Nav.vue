@@ -10,7 +10,7 @@
             <input type="button" class="nav-link" value="Movies"
                    style="background: none;color: #42b983;outline: none;border: none" @click="showPopularMovies">
           </li>
-          <li class="nav-item navbar-brand">
+          <li class="nav-item navbar-brand"  v-if="$store.state.favoriteMovies.length > 0">
             <input type="button" class="nav-link" value="Favorites"
                    style="background: none;color: #42b983;outline: none;border: none" @click="pushFavorites">
           </li>
@@ -103,5 +103,24 @@ li {
 }
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+@media only screen and (max-width: 992px){
+  .navbar-toggler {
+    display: none;
+  }
+
+  #navbarSupportedContent{
+    margin-right: 0;
+  }
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .form-control, .bg-success {
+    width: 75%;
+    margin: auto;
+  }
 }
 </style>
