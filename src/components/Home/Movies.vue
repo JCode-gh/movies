@@ -1,11 +1,13 @@
 <template>
 <div class="fullMovieContainer">
-
+  <div v-if="$store.state.hasResults === false">
+    <h1>No results</h1>
+  </div>
   <div class="d-flex flex-wrap justify-content-center" v-if="$store.state.searchedResult.length > 0">
     <div class="card" style="width: 18rem; margin: 20px"
          v-for="(movie,index) in $store.state.searchedResult">
       <router-link :to="'/movieinfo'+`?${movie.id}`">
-        <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" class="card-img-top" :alt="movie.title">
+        <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" class="card-img-top" :alt="movie.title"/>
       </router-link>
       <div class="card-body">
         <router-link :to="'/movieinfo'+`?${movie.id}`">
@@ -22,8 +24,10 @@
 </template>
 
 <script>
+import ImageLoader from "../../Image-Loader";
 export default {
   name: "TopMovies",
+  components: {ImageLoader},
   data(){
     return {
       isAdded : Boolean
@@ -39,12 +43,16 @@ export default {
       }
       else {
         this.$store.state.favoriteMovies.push(movie);
+        this.$store.state.favoriteMovies = [...new Map(this.$store.state.favoriteMovies.map(item => [item["id"], item])).values()]
         localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
       }
+      document.querySelectorAll(".faicons")[index].style.color = "red";
+      document.querySelectorAll(".card")[index].style.border = "3px solid red";
 
-      //TODO: Set color of fontawesome Icon to red when pressed.
-      //PROBABLY HAVE TO USE INDEX
+        //TODO: RETURN ARRAY WITHOUT DUPLICATES
 
+
+      //this.$store.state.favoriteMovies = this.$store.state.favoriteMovies.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)
     },
   },
   beforeMount() {
@@ -89,7 +97,7 @@ h5 {
   font-size: 17px;
 }
 a:hover {
-  color: #42b983;
+  color: red;
 }
 .card-body {
   justify-content: center !important;

@@ -20,6 +20,8 @@ export default {
     if (!localStorage.getItem("favoriteMovies")){
       localStorage.setItem('favoriteMovies',"");
     }
-  }
+
+
+  },
 }
 </script>

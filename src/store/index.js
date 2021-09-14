@@ -4,7 +4,8 @@ export default createStore({
   state: {
     userinput : "",
     searchedResult : [],
-    favoriteMovies : []
+    favoriteMovies : [],
+    hasResults : false
   },
   mutations: {
   },

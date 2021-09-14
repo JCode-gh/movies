@@ -99,7 +99,7 @@ h5 {
   font-size: 17px;
 }
 a:hover {
-  color: #42b983;
+  color: red;
 }
 .card-body {
   justify-content: center !important;

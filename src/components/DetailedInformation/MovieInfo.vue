@@ -1,35 +1,71 @@
 <template>
-
   <div class="card mb-3">
     <div class="row g-0">
       <div class="col-md-4 image">
-        <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title" class="img-fluid rounded-start">
+        <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title" class="img-fluid rounded-start"/>
       </div>
       <div class="col-md-8 m-auto">
         <div class="card-body">
           <h5 class="card-title">{{ movie.title }}</h5>
           <p class="card-text">{{movie.overview}}</p>
           <p class="card-text"><small class="text-muted" style="margin-right: 2rem" v-for="genre in movie.genres">{{genre.name}}</small></p>
-          <input type="button" value="Go back" style="padding: 10px; background: black; color: white; outline: none; border: none;"
-          @click="$router.push('/');">
+          <div class="d-flex flex-column" >
+            <a @click="addToFavorites(movie, index)">
+              <font-awesome-icon id="faicon" class="faicons" :icon="['far', 'heart']" />
+            </a>
+            <div class="hello">
+
+              <div>
+                <input v-if="movie.homepage !== '' && !movie.homepage.includes('netflix')"
+                       type="button" id="website" value="Visit Website"
+                       @click="openWebsite(movie)">
+
+                <input v-if="movie.homepage !== '' && movie.homepage.includes('netflix')" type="button" value="Watch on Netflix"
+                       @click="openWebsite(movie)">
+
+              </div>
+            </div>
+
+
+
+
+
+            <input type="button" id="goBack" value="Go back"
+                   @click="$router.push('/');">
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-
-
-
 </template>
 
 <script>
 export default {
   name: "MovieInfo",
-  data(){
+  data: function () {
     return {
-      movie : [],
-      imagesLoaded : false
+      movie: null
     }
+  },
+  methods : {
+    openWebsite(movie){
+      window.open(`${movie.homepage}`)
+    },
+    addToFavorites(movie, index){
+      if (localStorage.getItem("favoriteMovies") !== ""){
+        this.$store.state.favoriteMovies.push(movie);
+        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
+      }
+      else {
+        this.$store.state.favoriteMovies.push(movie);
+        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
+      }
+
+      document.getElementById("faicon").style.color = "red";
+      //TODO: Set color of fontawesome Icon to red when pressed.
+      //PROBABLY HAVE TO USE INDEX
+
+    },
   },
   beforeMount() {
     const queryString = window.location.search;
@@ -42,48 +78,68 @@ export default {
         })
         .then(movie => {
           this.movie = movie;
-          console.log(this.movie);
-          Promise.all(Array.from(document.images).filter(img => !img.complete)
-              .map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
-            this.imagesLoaded = true;
-          });
+          console.log(movie);
         })
-
   }
 }
 </script>
 
 <style scoped>
+* {
+  transition: color 0.3s;
+}
+
+.classic-1 {
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  display: grid;
+}
+.classic-1:before,
+.classic-1:after {
+  content:"Loading...";
+  grid-area: 1/1;
+  -webkit-mask:linear-gradient(90deg,#000 50%,#0000 0) 0 50%/2ch 100%;
+  animation:c1 1s infinite cubic-bezier(0.5,220,0.5,-220);
+}
+.classic-1:after {
+  -webkit-mask-position:1ch 50%;
+  --s:-1;
+}
+@keyframes c1 {100%{transform: translateY(calc(var(--s,1)*0.1%));}}
 img {
   width: 300px;
-  box-shadow: 0px 0px 10px -2px black;
+  box-shadow: 0 0 10px -2px black;
 }
-
-.imgtextcontainer {
-  justify-content: space-evenly;
-
+input:hover  {
+  color: red !important;
 }
-
+input {
+  padding: 10px;
+  background: black;
+  color: white;
+  outline: none;
+  border: none;
+  width: 100%;
+}
 .card {
   border: 4px dotted;
 }
 
-.titletextcontainer {
-  margin: auto;
-}
-
-.imgtextcontainer p {
-
-}
 
 .image {
-  background: black;
   display: flex;
   justify-content: flex-end;
-  background-image: url("https://thumbs.dreamstime.com/b/abstract-line-background-lines-vector-design-182560517.jpg");
+  background: black url("https://thumbs.dreamstime.com/b/abstract-line-background-lines-vector-design-182560517.jpg");
 }
 
 ul {
   list-style: none;
+}
+.faicons {
+  font-size: 30px;
+}
+.faicons:hover,.faicons:focus, .faicons:visited {
+  color: red !important;
 }
 </style>
