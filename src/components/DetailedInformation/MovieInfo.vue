@@ -1,13 +1,13 @@
 <template>
   <div class="card mb-3">
-    <div class="row g-0">
+    <div v-if="movie" class="row g-0">
       <div class="col-md-4 image">
         <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title" class="img-fluid rounded-start"/>
       </div>
       <div class="col-md-8 m-auto">
         <div class="card-body">
           <h5 class="card-title">{{ movie.title }}</h5>
-          <p class="card-text">{{movie.overview}}</p>
+          <p class="card-text">{{ movie.overview }}</p>
           <p class="card-text"><small class="text-muted" style="margin-right: 2rem" v-for="genre in movie.genres">{{genre.name}}</small></p>
           <div class="d-flex flex-column" >
             <a @click="addToFavorites(movie, index)">
@@ -35,6 +35,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div v-else>
+      <div class="classic-1"></div>
     </div>
   </div>
 </template>
