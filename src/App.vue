@@ -2,6 +2,17 @@
   <router-view/>
 </template>
 
+<script>
+export default {
+  async created() {
+    const favoriteMoviesStorageData = localStorage.getItem('favoriteMovies')
+    if(favoriteMoviesStorageData) {
+      await this.$store.commit('INIT_MOVIES', JSON.parse(favoriteMoviesStorageData))
+    }
+  }
+}
+</script>
+
 <style>
 * {
   margin: 0;

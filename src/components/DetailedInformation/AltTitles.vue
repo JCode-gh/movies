@@ -8,7 +8,7 @@
       <router-link :to="'/movieinfo'+`?${movie.id}`">
         <h5 class="card-title">{{ movie.title }}</h5>
       </router-link>
-      <a @click="addToFavorites(movie, index)"><font-awesome-icon class="faicons" :icon="['far', 'heart']" /></a>
+      <a @click="addToFavorites(movie, index)"><font-awesome-icon class="faicons" :icon="['far', 'heart']" :style="{color: isActive(movie) ? 'red' : 'black'}" /></a>
       <!--<input type="button" @click="addToFavorites(movie)" value="Add To Favorites">-->
     </div>
   </div>
@@ -21,18 +21,14 @@ export default {
     collectionTitles : Array
   },
   methods: {
-    addToFavorites(movie, index){
-      if (localStorage.getItem("favoriteMovies") !== ""){
-        this.$store.state.favoriteMovies.push(movie);
-        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
-      }
-      else {
-        this.$store.state.favoriteMovies.push(movie);
-        localStorage.setItem("favoriteMovies",JSON.stringify(this.$store.state.favoriteMovies));
-      }
-
-      document.getElementById("faicon").style.color = "red";
-
+    isActive(movie) {
+      console.log('movie', movie);
+      if(!movie) return false
+      const storeData = this.$store.state.favoriteMovies || []
+      return storeData.some(obj => obj.id === movie.id)
+    },
+    async addToFavorites(movie){
+      await this.$store.commit('SET_MOVIES', movie);
     },
   },
   mounted() {

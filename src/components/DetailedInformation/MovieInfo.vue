@@ -1,6 +1,6 @@
 <template>
   <div class="card mb-3"
-       :style="{borderColor: isActive ? 'red' : 'blue'}">
+       >
     <div v-if="movie" class="row g-0">
       <div class="col-md-4 image">
         <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title" class="img-fluid rounded-start"/>
@@ -14,7 +14,7 @@
             <a @click="addToFavorites(movie, index)">
               <font-awesome-icon id="faicon"
                                   class="faicons"
-                                 :style="{color: isActive ? 'red' : 'blue'}"
+                                 :style="{color: isActive ? 'red' : 'black'}"
                                  :icon="['far', 'heart']" />
             </a>
             <div>
@@ -56,7 +56,7 @@ export default {
     isActive() {
       if(!this.movie) return false
       const storeData = this.$store.state.favoriteMovies || []
-      return storeData.includes(obj => obj.id === this.movie.id)
+      return storeData.some(obj => obj.id === this.movie.id)
     }
   },
   methods : {

@@ -1,27 +1,28 @@
 <template>
-<div class="fullMovieContainer">
-  <div v-if="$store.state.hasResults === false">
-    <h1>No results</h1>
-  </div>
-  <div class="d-flex flex-wrap justify-content-center" v-if="$store.state.searchedResult.length > 0">
-    <div class="card" style="width: 18rem; margin: 20px"
-         v-for="(movie,index) in $store.state.searchedResult">
-      <router-link :to="'/movieinfo'+`?${movie.id}`">
-        <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" class="card-img-top" :alt="movie.title"/>
-      </router-link>
-      <div class="card-body">
+  <div class="fullMovieContainer">
+    <div v-if="$store.state.hasResults === false">
+      <h1>No results</h1>
+    </div>
+    <div class="d-flex flex-wrap justify-content-center" v-if="$store.state.searchedResult.length > 0">
+      <div class="card" style="width: 18rem; margin: 20px"
+           v-for="(movie,index) in $store.state.searchedResult"
+           :style="{borderColor: isActive(movie) ? 'red' : 'black'}" >
         <router-link :to="'/movieinfo'+`?${movie.id}`">
-          <h5 class="card-title">{{ movie.title }}</h5>
+          <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" class="card-img-top" :alt="movie.title"/>
         </router-link>
-        <a @click="addToFavorites(movie, index)"><font-awesome-icon class="faicons" :icon="['far', 'heart']" /></a>
-        <!--<input type="button" @click="addToFavorites(movie)" value="Add To Favorites">-->
+        <div class="card-body">
+          <router-link :to="'/movieinfo'+`?${movie.id}`">
+            <h5 class="card-title">{{ movie.title }}</h5>
+          </router-link>
+          <a @click="addToFavorites(movie, index)"><font-awesome-icon class="faicons" :icon="['far', 'heart']" :style="{color: isActive(movie) ? 'red' : 'lightgray'}"  /></a>
+          <!--<input type="button" @click="addToFavorites(movie)" value="Add To Favorites">-->
+        </div>
       </div>
     </div>
+    <div v-else-if="$store.state.hasResults === true && $store.state.searchedResult.length <= 0">
+      <LoadingSpinner/>
+    </div>
   </div>
-  <div v-else-if="$store.state.hasResults === true && $store.state.searchedResult.length <= 0">
-    <LoadingSpinner/>
-  </div>
-</div>
 
 
 </template>
@@ -39,10 +40,17 @@ export default {
   computed : {
   },
   methods : {
-    addToFavorites(movie, index) {
+    isActive(movie) {
+      console.log('movie', movie);
+      if(!movie) return false
+      const storeData = this.$store.state.favoriteMovies || []
+      return storeData.some(obj => obj.id === movie.id)
+    },
+    async addToFavorites(movie, index) {
       this.$store.commit('SET_MOVIES', movie);
       document.querySelectorAll('.faicons')[index].style.color = 'red';
       document.querySelectorAll('.card')[index].style.border = '3px solid red';
+      await this.$store.commit('SET_MOVIES', movie);
     }
   },
   beforeMount() {

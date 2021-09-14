@@ -8,6 +8,9 @@ export default createStore({
     hasResults : true
   },
   mutations: {
+    INIT_MOVIES(state, payload) {
+      state.favoriteMovies = payload
+    },
     SET_MOVIES(state, payload) {
       state.favoriteMovies = state.favoriteMovies || [];
       console.log(state.favoriteMovies);
