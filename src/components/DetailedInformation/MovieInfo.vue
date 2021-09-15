@@ -9,7 +9,10 @@
         <div class="card-body">
           <h5 class="card-title">{{ movie.title }}</h5>
           <p class="card-text">{{ movie.overview }}</p>
-          <p class="card-text"><small class="text-muted" style="margin-right: 2rem" v-for="genre in movie.genres">{{genre.name}}</small></p>
+          <p class="card-text">
+            <small class="text-muted"
+                   :style="{marginRight: hasMultipleGenres(movie) ? '2rem' : '0'}"
+                    v-for="genre in movie.genres">{{genre.name}}</small></p>
           <div class="d-flex flex-column" >
             <a @click="addToFavorites(movie, index)">
               <font-awesome-icon id="faicon"
@@ -60,6 +63,14 @@ export default {
     }
   },
   methods : {
+    hasMultipleGenres(movie){
+      if (movie.genres.length > 1){
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
     openWebsite(movie){
       window.open(`${movie.homepage}`)
     },

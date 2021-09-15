@@ -8,7 +8,8 @@
       <router-link :to="'/movieinfo'+`?${movie.id}`">
         <h5 class="card-title">{{ movie.title }}</h5>
       </router-link>
-      <a @click="addToFavorites(movie, index)"><font-awesome-icon class="faicons" :icon="['far', 'heart']" :style="{color: isActive(movie) ? 'red' : 'black'}" /></a>
+      <a @click="addToFavorites(movie, index)"><font-awesome-icon class="faicons" :icon="['far', 'heart']"
+         :style="{color: isActive(movie) ? 'red' : 'black'}" /></a>
       <!--<input type="button" @click="addToFavorites(movie)" value="Add To Favorites">-->
     </div>
   </div>

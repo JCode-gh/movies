@@ -8,14 +8,16 @@
            v-for="(movie,index) in $store.state.searchedResult"
            :style="{borderColor: isActive(movie) ? 'red' : 'black'}" >
         <router-link :to="'/movieinfo'+`?${movie.id}`">
-          <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" class="card-img-top" :alt="movie.title"/>
+          <img class="card-img-top" :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title"/>
         </router-link>
         <div class="card-body">
           <router-link :to="'/movieinfo'+`?${movie.id}`">
             <h5 class="card-title">{{ movie.title }}</h5>
           </router-link>
-          <a @click="addToFavorites(movie, index)"><font-awesome-icon class="faicons" :icon="['far', 'heart']" :style="{color: isActive(movie) ? 'red' : 'lightgray'}"  /></a>
-          <!--<input type="button" @click="addToFavorites(movie)" value="Add To Favorites">-->
+          <a @click="addToFavorites(movie, index)">
+            <font-awesome-icon class="faicons" :icon="['far', 'heart']"
+                               :style="{color: isActive(movie) ? 'red' : 'lightgray'}"  />
+          </a>
         </div>
       </div>
     </div>
@@ -23,8 +25,6 @@
       <LoadingSpinner/>
     </div>
   </div>
-
-
 </template>
 
 <script>
