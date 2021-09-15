@@ -13,7 +13,7 @@
                    :style="{marginRight: hasMultipleGenres(movie) ? '2rem' : '0'}"
                     v-for="genre in movie.genres">{{genre.name}}</small></p>
           <div class="d-flex flex-column" >
-            <a @click="addToFavorites(movie, index)">
+            <a @click="addToFavorites(movie)">
               <font-awesome-icon id="faicon"
                                   class="faicons"
                                  :style="{color: isActive ? 'red' : 'black'}"
@@ -68,8 +68,13 @@ export default {
     openWebsite(movie){
       window.open(`${movie.homepage}`)
     },
-    async addToFavorites(movie, index) {
-      await this.$store.commit('SET_FAVMOVIES', movie);
+    async addToFavorites(movie) {
+      if (this.$store.state.favoriteMovies.find(mov => mov.id === movie.id)){
+        this.$store.commit("REMOVE_FAVMOVIE", movie);
+      }
+      else {
+        await this.$store.commit('SET_FAVMOVIES', movie);
+      }
     }
   },
   beforeMount() {

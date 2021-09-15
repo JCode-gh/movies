@@ -55,10 +55,13 @@ export default {
       const storeData = this.$store.state.favoriteMovies || []
       return storeData.some(obj => obj.id === movie.id)
     },
-    async addToFavorites(movie, index) {
-      document.querySelectorAll('.faicons')[index].style.color = 'red';
-      document.querySelectorAll('.card')[index].style.border = '3px solid red';
-      await this.$store.commit('SET_FAVMOVIES', movie);
+    async addToFavorites(movie) {
+      if (this.$store.state.favoriteMovies.find(mov => mov.id === movie.id)){
+        this.$store.commit("REMOVE_FAVMOVIE", movie);
+      }
+      else {
+        await this.$store.commit('SET_FAVMOVIES', movie);
+      }
     }
   },
   beforeMount() {

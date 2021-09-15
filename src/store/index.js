@@ -15,11 +15,15 @@ export default createStore({
     SET_FAVMOVIES(state, payload) {
       state.favoriteMovies = state.favoriteMovies || [];
 
-      console.log(state.favoriteMovies);
       if (!state.favoriteMovies.some((obj) => obj.id === payload.id)) {
         state.favoriteMovies.push(payload)
       }
       localStorage.setItem('favoriteMovies', JSON.stringify(state.favoriteMovies))
+    },
+    REMOVE_FAVMOVIE(state, payload){
+      if (state.favoriteMovies.find(movie => movie.id === payload.id)){
+        state.favoriteMovies = state.favoriteMovies.filter(movie => movie.id !== payload.id);
+      }
     },
     CLEAR_SEARCHEDRESULT(state){
       state.searchedResult = [];
@@ -38,7 +42,7 @@ export default createStore({
       state.hasResults = true;
     },
     MAKE_UNIQUE_SEARCHEDRESULT(state, payload){
-      state.searchedResult = payload.results.filter(movie => movie.poster_path !== null);
+      state.searchedResult = payload.results.filter(movie => movie.id !== null);
       state.hasResults = state.searchedResult.length > 0;
     }
   },
