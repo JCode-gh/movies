@@ -41,7 +41,6 @@ export default {
   },
   methods : {
     isActive(movie) {
-      console.log('movie', movie);
       if(!movie) return false
       const storeData = this.$store.state.favoriteMovies || []
       return storeData.some(obj => obj.id === movie.id)
@@ -50,12 +49,11 @@ export default {
       this.$store.commit('SET_MOVIES', movie);
       document.querySelectorAll('.faicons')[index].style.color = 'red';
       document.querySelectorAll('.card')[index].style.border = '3px solid red';
-      await this.$store.commit('SET_MOVIES', movie);
+      await this.$store.commit('SET_FAVMOVIES', movie);
     }
   },
   beforeMount() {
-    this.$store.state.searchedResult = [];
-    this.$store.state.favoriteMovies = [];
+    this.$store.commit("CLEAR_SEARCH_FAVMOVIES_ARRAYS");
     let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
 
     fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`)
@@ -63,8 +61,7 @@ export default {
           return response.json();
         })
         .then(movies => {
-          this.$store.state.searchedResult = movies.results;
-          console.log(this.$store.state.searchedResult);
+          this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT",movies.results)
         })
 
     if (localStorage.getItem("favoriteMovies")){

@@ -29,7 +29,7 @@ export default {
       return storeData.some(obj => obj.id === movie.id)
     },
     async addToFavorites(movie){
-      await this.$store.commit('SET_MOVIES', movie);
+      await this.$store.commit('SET_FAVMOVIES', movie);
     },
   },
   mounted() {

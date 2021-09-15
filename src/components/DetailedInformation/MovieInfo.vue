@@ -69,11 +69,7 @@ export default {
       window.open(`${movie.homepage}`)
     },
     async addToFavorites(movie, index) {
-      await this.$store.commit('SET_MOVIES', movie);
-      // this.$nextTick(() => {
-      //   document.querySelectorAll('.faicons')[index].style.color = 'red';
-      //   document.querySelectorAll('.card')[index].style.border = '3px solid red';
-      // })
+      await this.$store.commit('SET_FAVMOVIES', movie);
     }
   },
   beforeMount() {
@@ -88,21 +84,16 @@ export default {
         })
         .then(movie => {
           this.movie = movie;
-          console.log("movie",movie);
 
           // Fetching collections of movie
-
           fetch(`https://api.themoviedb.org/3/search/collection?api_key=${apiKey}&language=en-US&query=${movie.original_title}`)
               .then(function (response) {
                 return response.json();
               })
               .then(collection => {
                 this.collectionTitles = collection.titles;
-                console.log(collection);
               })
         })
-
-
   }
 }
 </script>

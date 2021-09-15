@@ -39,7 +39,7 @@ export default {
   },
   methods : {
     genreChange(event){
-      this.$store.state.searchedResult = [];
+      this.$store.commit("CLEAR_SEARCHEDRESULT");
       const genreId = event.target.value
       let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
       fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreId}`)
@@ -100,7 +100,6 @@ export default {
         })
         .then(genreListFull => {
           this.genresList = genreListFull;
-          console.log(genreListFull);
         })
   },
 }

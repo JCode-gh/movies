@@ -7,7 +7,7 @@ export default {
   async created() {
     const favoriteMoviesStorageData = localStorage.getItem('favoriteMovies')
     if(favoriteMoviesStorageData) {
-      await this.$store.commit('INIT_MOVIES', JSON.parse(favoriteMoviesStorageData))
+      await this.$store.commit('INIT_FAVMOVIES', JSON.parse(favoriteMoviesStorageData))
     }
   }
 }
