@@ -7,10 +7,15 @@
       <div class="card" style="width: 18rem; margin: 20px"
            v-for="(movie,index) in $store.state.searchedResult"
            :style="{borderColor: isActive(movie) ? 'red' : 'black'}" >
+        <star-rating
+            :rating="movie.vote_average/2"
+            :increment="0.2"
+            :read-only="true"
+            :star-size="20"
+        />
         <router-link :to="'/movieinfo'+`?${movie.id}`">
           <img class="card-img-top" :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title"/>
         </router-link>
-        <!--<h5>Score ({{movie.vote_average}})</h5>-->
         <div class="card-body">
           <router-link :to="'/movieinfo'+`?${movie.id}`">
             <h5 class="card-title">{{ movie.title }}</h5>
@@ -29,10 +34,14 @@
 </template>
 
 <script>
+import StarRating from 'vue-star-rating'
 import LoadingSpinner from "../LoadingAnimation/LoadingSpinner";
 export default {
   name: "TopMovies",
-  components: {LoadingSpinner},
+  components: {
+    LoadingSpinner,
+    StarRating
+  },
   data(){
     return {
       isAdded : Boolean
