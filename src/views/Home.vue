@@ -33,12 +33,12 @@ export default {
     Nav,
     Movies
   },
-  mounted() {
+  beforeMount() {
+    console.log(this.$store.state.favoriteMovies);
+    this.$store.state.favoriteMovies = [];
     if (!localStorage.getItem("favoriteMovies")){
       localStorage.setItem('favoriteMovies',"");
     }
-
-
   },
 }
 </script>

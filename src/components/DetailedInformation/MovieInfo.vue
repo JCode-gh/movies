@@ -1,6 +1,5 @@
 <template>
-  <div class="card mb-3"
-       >
+  <div class="card mb-3">
     <div v-if="movie" class="row g-0">
       <div class="col-md-4 image">
         <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title" class="img-fluid rounded-start"/>

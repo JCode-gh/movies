@@ -55,6 +55,7 @@ export default {
   },
   beforeMount() {
     this.$store.state.searchedResult = [];
+    this.$store.state.favoriteMovies = [];
     let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
 
     fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`)
@@ -66,8 +67,8 @@ export default {
           console.log(this.$store.state.searchedResult);
         })
 
-    if (localStorage.getItem("favoriteMovies") !== ""){
-      this.$store.state.favoriteMovies =  JSON.parse(localStorage.getItem("favoriteMovies"));
+    if (localStorage.getItem("favoriteMovies")){
+        this.$store.state.favoriteMovies =  JSON.parse(localStorage.getItem("favoriteMovies"));
     }
   }
 }

@@ -86,22 +86,13 @@ export default {
             .then(movies => {
               this.$store.state.searchedResult = movies.results.filter(movie => movie.poster_path !== null)
               console.log(movies);
-              if (this.$store.state.searchedResult.length > 0){
-                this.$store.state.hasResults = true;
-
-              }
-              else {
-                this.$store.state.hasResults = false;
-              }
-              console.log(this.$store.state.hasResults)
-
-              console.log(this.$store.state.searchedResult);
+              this.$store.state.hasResults = this.$store.state.searchedResult.length > 0;
             })
 
       }
     }
   },
-  beforeMount() {
+  mounted() {
     let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
     fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`)
         .then(function (response) {
