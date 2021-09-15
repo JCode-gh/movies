@@ -34,8 +34,6 @@ export default {
     Movies
   },
   beforeMount() {
-    console.log(this.$store.state.favoriteMovies);
-    this.$store.state.favoriteMovies = [];
     if (!localStorage.getItem("favoriteMovies")){
       localStorage.setItem('favoriteMovies',"");
     }

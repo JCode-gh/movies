@@ -8,11 +8,13 @@ export default createStore({
     hasResults : true
   },
   mutations: {
-    INIT_MOVIES(state, payload) {
-      state.favoriteMovies = payload
+    INIT_FAVMOVIES(state, payload) {
+      // could try doing this as well, to avoid it being set to `null` or `undefined`
+      state.favoriteMovies = payload ?? []
     },
     SET_FAVMOVIES(state, payload) {
       state.favoriteMovies = state.favoriteMovies || [];
+
       console.log(state.favoriteMovies);
       if (!state.favoriteMovies.some((obj) => obj.id === payload.id)) {
         state.favoriteMovies.push(payload)

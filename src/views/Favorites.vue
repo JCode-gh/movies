@@ -51,7 +51,7 @@ export default {
             return response.json();
           })
           .then(movies => {
-            this.$store.state.searchedResult = movies.results;
+            this.$store.state.searchedResult = movies.results; // more need for mutations :D
             console.log(this.$store.state.searchedResult);
           })
     },

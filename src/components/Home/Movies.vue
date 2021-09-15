@@ -46,7 +46,6 @@ export default {
       return storeData.some(obj => obj.id === movie.id)
     },
     async addToFavorites(movie, index) {
-      this.$store.commit('SET_MOVIES', movie);
       document.querySelectorAll('.faicons')[index].style.color = 'red';
       document.querySelectorAll('.card')[index].style.border = '3px solid red';
       await this.$store.commit('SET_FAVMOVIES', movie);
@@ -65,7 +64,8 @@ export default {
         })
 
     if (localStorage.getItem("favoriteMovies")){
-        this.$store.state.favoriteMovies =  JSON.parse(localStorage.getItem("favoriteMovies"));
+      //  dont set state outside of mutations
+      // this.$store.state.favoriteMovies =  JSON.parse(localStorage.getItem("favoriteMovies"));
     }
   }
 }

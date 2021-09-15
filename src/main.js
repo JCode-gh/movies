@@ -11,7 +11,6 @@ library.add(fas);
 library.add(far);
 
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon)
