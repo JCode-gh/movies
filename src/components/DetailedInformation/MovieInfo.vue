@@ -75,10 +75,9 @@ export default {
   beforeMount() {
     const queryString = window.location.search;
     let id = queryString.split('?')[1];
-    let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
 
     //Fetching details about movie
-    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
+    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.$store.state.apiKey}&language=en-US`)
         .then(function (response) {
           return response.json();
         })
@@ -86,7 +85,7 @@ export default {
           this.movie = movie;
 
           // Fetching collections of movie
-          fetch(`https://api.themoviedb.org/3/search/collection?api_key=${apiKey}&language=en-US&query=${movie.original_title}`)
+          fetch(`https://api.themoviedb.org/3/search/collection?api_key=${this.$store.state.apiKey}&language=en-US&query=${movie.original_title}`)
               .then(function (response) {
                 return response.json();
               })

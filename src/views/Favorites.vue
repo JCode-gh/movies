@@ -42,17 +42,14 @@ export default {
     },
     showPopularMovies() {
       this.$router.push('/');
-      //this.userInput = "";
-      this.$store.state.searchedResult = [];
-      let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
+      this.$store.commit("CLEAR_SEARCHEDRESULT");
 
-      fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`)
+      fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
           .then(function (response) {
             return response.json();
           })
           .then(movies => {
-            this.$store.state.searchedResult = movies.results; // more need for mutations :D
-            console.log(this.$store.state.searchedResult);
+            this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT", movies.results);
           })
     },
   }
@@ -82,7 +79,7 @@ sup {
   margin-left: 3rem;
 }
 
-.form-control, .form{
+.form-control{
   margin-right: 1rem;
 }
 #nav a {

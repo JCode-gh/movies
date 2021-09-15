@@ -5,11 +5,11 @@ export default createStore({
     userinput : "",
     searchedResult : [],
     favoriteMovies : [],
-    hasResults : true
+    hasResults : true,
+    apiKey : "ec8fb4c97f4c101a7e63dc22213b4106"
   },
   mutations: {
     INIT_FAVMOVIES(state, payload) {
-      // could try doing this as well, to avoid it being set to `null` or `undefined`
       state.favoriteMovies = payload ?? []
     },
     SET_FAVMOVIES(state, payload) {
@@ -22,7 +22,7 @@ export default createStore({
       localStorage.setItem('favoriteMovies', JSON.stringify(state.favoriteMovies))
     },
     CLEAR_SEARCHEDRESULT(state){
-      state.searchedResult = state.favoriteMovies || [];
+      state.searchedResult = [];
     },
     CLEAR_SEARCH_FAVMOVIES_ARRAYS(state){
       state.searchedResult = [];
@@ -30,6 +30,16 @@ export default createStore({
     },
     INSERT_MOVIES_SEARCHEDRESULT(state, payload){
       state.searchedResult = payload;
+    },
+    GET_FAVMOVIES_FROM_LST(state){
+      state.favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
+    },
+    SET_HASRESULTS_TRUE(state){
+      state.hasResults = true;
+    },
+    MAKE_UNIQUE_SEARCHEDRESULT(state, payload){
+      state.searchedResult = payload.results.filter(movie => movie.poster_path !== null);
+      state.hasResults = state.searchedResult.length > 0;
     }
   },
   actions: {

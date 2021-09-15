@@ -10,6 +10,7 @@
         <router-link :to="'/movieinfo'+`?${movie.id}`">
           <img class="card-img-top" :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title"/>
         </router-link>
+        <!--<h5>Score ({{movie.vote_average}})</h5>-->
         <div class="card-body">
           <router-link :to="'/movieinfo'+`?${movie.id}`">
             <h5 class="card-title">{{ movie.title }}</h5>
@@ -53,20 +54,20 @@ export default {
   },
   beforeMount() {
     this.$store.commit("CLEAR_SEARCH_FAVMOVIES_ARRAYS");
-    let apiKey = "ec8fb4c97f4c101a7e63dc22213b4106";
 
-    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`)
+    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
         .then(function (response) {
           return response.json();
         })
         .then(movies => {
           this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT",movies.results)
+          console.log(movies.results);
         })
 
     if (localStorage.getItem("favoriteMovies")){
-      //  dont set state outside of mutations
-      // this.$store.state.favoriteMovies =  JSON.parse(localStorage.getItem("favoriteMovies"));
+      this.$store.commit("GET_FAVMOVIES_FROM_LST");
     }
+
   }
 }
 </script>
