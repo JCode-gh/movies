@@ -64,12 +64,7 @@ export default {
   },
   methods : {
     hasMultipleGenres(movie){
-      if (movie.genres.length > 1){
-        return true;
-      }
-      else {
-        return false;
-      }
+      return movie.genres.length > 1;
     },
     openWebsite(movie){
       window.open(`${movie.homepage}`)
