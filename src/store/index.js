@@ -33,7 +33,10 @@ export default createStore({
       state.favoriteMovies = [];
     },
     INSERT_MOVIES_SEARCHEDRESULT(state, payload){
-      state.searchedResult = payload;
+      state.searchedResult = payload.filter(movie => movie.poster_path !== null);
+
+
+
     },
     GET_FAVMOVIES_FROM_LST(state){
       state.favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
@@ -42,7 +45,7 @@ export default createStore({
       state.hasResults = true;
     },
     MAKE_UNIQUE_SEARCHEDRESULT(state, payload){
-      state.searchedResult = payload.results.filter(movie => movie.id !== null);
+      state.searchedResult = payload.filter(movie => movie.poster_path !== null);
       state.hasResults = state.searchedResult.length > 0;
     }
   },

@@ -13,12 +13,6 @@
                    :style="{marginRight: hasMultipleGenres(movie) ? '2rem' : '0'}"
                     v-for="genre in movie.genres">{{genre.name}}</small></p>
           <div class="d-flex flex-column" >
-            <a @click="addToFavorites(movie)">
-              <font-awesome-icon id="faicon"
-                                  class="faicons"
-                                 :style="{color: isActive ? 'red' : 'black'}"
-                                 :icon="['far', 'heart']" />
-            </a>
             <div>
               <div>
                 <input v-if="movie.homepage !== '' && !movie.homepage.includes('netflix')"
@@ -62,12 +56,17 @@ export default {
     }
   },
   methods : {
+    translatePage(){
+      window.location = "#googtrans(en/ne)";
+      location.reload();
+    },
     hasMultipleGenres(movie){
       return movie.genres.length > 1;
     },
     openWebsite(movie){
       window.open(`${movie.homepage}`)
     },
+    /*
     async addToFavorites(movie) {
       if (this.$store.state.favoriteMovies.find(mov => mov.id === movie.id)){
         this.$store.commit("REMOVE_FAVMOVIE", movie);
@@ -76,6 +75,8 @@ export default {
         await this.$store.commit('SET_FAVMOVIES', movie);
       }
     }
+
+     */
   },
   beforeMount() {
     const queryString = window.location.search;
@@ -122,6 +123,7 @@ input {
   outline: none;
   border: none;
   width: 100%;
+  border-top: 2px solid white;
 }
 .card {
   border: 4px dotted;

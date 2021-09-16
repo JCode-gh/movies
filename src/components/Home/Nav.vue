@@ -21,7 +21,7 @@
     </nav>
     <nav class="d-flex justify-content-center p-2 fixed-bottom" id="filter" v-if="genresList.genres">
       <h5 id="genre">Genre</h5>
-      <select @change="genreChange">
+      <select @change="genreChange" class="form-select">
         <option v-for="genre in genresList.genres" :value="genre.id" :key="genre.id">{{genre.name}}</option>
       </select>
     </nav>
@@ -78,7 +78,8 @@ export default {
               return response.json();
             })
             .then(movies => {
-              this.$store.commit("MAKE_UNIQUE_SEARCHEDRESULT", movies);
+              this.$store.commit("MAKE_UNIQUE_SEARCHEDRESULT", movies.results);
+              console.log(movies);
             })
       }
     }
@@ -105,12 +106,18 @@ export default {
 }
 select {
   outline: none;
+  border: none;
 }
+option:hover {
+  color: red !important;
+}
+
 #filter {
   border-top: 2px dotted white;
 }
 #genre {
-  margin-bottom: 0 !important;
+  margin-top: auto;
+  margin-bottom: auto !important;
   margin-right: 20px;
   color: lightgrey;
 }
