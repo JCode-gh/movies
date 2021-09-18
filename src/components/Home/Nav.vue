@@ -79,6 +79,8 @@ export default {
     },
     searchClicked(){
       if (this.userInput !== this.$store.state.userinput){
+        localStorage.removeItem("genreIdSelected");
+        localStorage.removeItem("genreIndexSelected");
         this.$store.state.userinput = this.userInput;
         this.$store.commit("CLEAR_SEARCHEDRESULT");
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.$store.state.apiKey}&language=en-US&query=${this.$store.state.userinput}&page=1&include_adult=false`)

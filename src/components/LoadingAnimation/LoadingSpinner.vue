@@ -13,8 +13,10 @@ export default {
 .classic-1 {
   font-weight: bold;
   font-family: monospace;
-  font-size: 30px;
   display: grid;
+  color: white;
+  font-size: 50px;
+  margin: auto;
 }
 .classic-1:before,
 .classic-1:after {
