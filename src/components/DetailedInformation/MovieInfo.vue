@@ -6,12 +6,21 @@
       </div>
       <div class="col-md-8 m-auto">
         <div class="card-body">
+
+
           <h5 class="card-title">{{ movie.title }}</h5>
           <p class="card-text">{{ movie.overview }}</p>
           <p class="card-text">
             <small class="text-muted"
                    :style="{marginRight: hasMultipleGenres(movie) ? '2rem' : '0'}"
                     v-for="genre in movie.genres">{{genre.name}}</small></p>
+          <star-rating class="mb-3 starrating" style="text-align: center; justify-content: center !important;"
+                       :rating="movie.vote_average/2"
+                       :increment="0.2"
+                       :read-only="true"
+                       :show-rating="false"
+                       :star-size="20"
+          />
           <div class="d-flex flex-column" >
             <div>
               <div>
@@ -39,9 +48,10 @@
 <script>
 import AltTitles from "./AltTitles";
 import LoadingSpinner from "../LoadingAnimation/LoadingSpinner";
+import StarRating from 'vue-star-rating'
 export default {
   name: "MovieInfo",
-  components: {LoadingSpinner, AltTitles},
+  components: {LoadingSpinner, AltTitles, StarRating},
   data: function () {
     return {
       movie: null,

@@ -6,13 +6,7 @@
     <div class="d-flex flex-wrap justify-content-center" v-if="$store.state.searchedResult.length > 0">
       <div class="card" style="width: 18rem; margin: 20px"
            v-for="(movie,index) in $store.state.searchedResult"
-           :style="{borderColor: isActive(movie) ? 'red' : 'black'}" >
-        <star-rating
-            :rating="movie.vote_average/2"
-            :increment="0.2"
-            :read-only="true"
-            :star-size="20"
-        />
+           :style="{borderColor: isActive(movie) ? 'red' : 'darkgray'}" >
         <router-link :to="'/movieinfo'+`?${movie.id}`">
           <img class="card-img-top" :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title"/>
         </router-link>
@@ -34,13 +28,11 @@
 </template>
 
 <script>
-import StarRating from 'vue-star-rating'
 import LoadingSpinner from "../LoadingAnimation/LoadingSpinner";
 export default {
   name: "TopMovies",
   components: {
     LoadingSpinner,
-    StarRating
   },
   data(){
     return {
@@ -111,9 +103,14 @@ a {
 }
 .card {
   background-color: black;
-  border: 3px solid black;
+  border: 3px solid white;
 }
-
+img {
+  transition: transform .2s;
+}
+img:hover {
+  transform: scale(0.98);
+}
 h5 {
   font-size: 17px;
 }
