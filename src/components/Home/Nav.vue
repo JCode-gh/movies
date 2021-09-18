@@ -21,7 +21,7 @@
     </nav>
     <nav class="d-flex justify-content-center p-2 fixed-bottom" id="filter" v-if="genresList.genres">
       <h5 id="genre">Genre</h5>
-      <select @change="genreChange" class="form-select">
+      <select id="genreSelect" @change="genreChange" class="form-select">
         <option v-for="genre in genresList.genres" :value="genre.id" :key="genre.id">{{genre.name}}</option>
       </select>
     </nav>
@@ -39,8 +39,13 @@ export default {
   },
   methods : {
     genreChange(event){
+      console.log(event.target );
+      localStorage.setItem('genreIdSelected', document.querySelector("select").value);
+      localStorage.setItem('genreIndexSelected', document.getElementById("genreSelect").selectedIndex)
+
       this.$store.commit("CLEAR_SEARCHEDRESULT");
-      const genreId = event.target.value
+      const genreId = event.target.value;
+      console.log(genreId);
       fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&with_genres=${genreId}`)
           .then(function (response) {
             return response.json();
@@ -48,12 +53,15 @@ export default {
           .then(movies => {
             this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT", movies.results);
           })
+
     },
     pushFavorites(){
       this.$router.push('/favorites');
     },
     showPopularMovies(){
       this.$router.push('/');
+      localStorage.removeItem("genreIndexSelected");
+      localStorage.removeItem("genreIdSelected");
       this.$store.commit("SET_HASRESULTS_TRUE");
       this.$store.commit("CLEAR_SEARCHEDRESULT");
 
@@ -93,6 +101,19 @@ export default {
           this.genresList = genreListFull;
         })
   },
+  mounted() {
+    if (localStorage.getItem("genreIndexSelected")){
+      let num = parseInt(localStorage.getItem("genreIndexSelected"));
+      let index = parseInt(localStorage.getItem("genreIndexSelected"));
+      console.log(num);
+
+      //TODO: THIS IF STATEMENT DOESN'T WORK
+      if (document.querySelector("select")){
+        console.log("Select exists");
+        document.querySelector("select").selectedIndex = index;
+      }
+    }
+  }
 }
 </script>
 
