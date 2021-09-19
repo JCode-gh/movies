@@ -23,7 +23,6 @@ export default {
   },
   methods: {
     isActive(movie) {
-      console.log('movie', movie);
       if(!movie) return false
       const storeData = this.$store.state.favoriteMovies || []
       return storeData.some(obj => obj.id === movie.id)

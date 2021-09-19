@@ -24,6 +24,7 @@ export default {
   grid-area: 1/1;
   -webkit-mask:linear-gradient(90deg,#000 50%,#0000 0) 0 50%/2ch 100%;
   animation:c1 1s infinite cubic-bezier(0.5,220,0.5,-220);
+
 }
 .classic-1:after {
   -webkit-mask-position:1ch 50%;

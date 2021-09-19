@@ -32,11 +32,11 @@ export default createStore({
       state.searchedResult = [];
       state.favoriteMovies = [];
     },
+    CLEAR_USERINPUT(state){
+      state.userinput = "";
+    },
     INSERT_MOVIES_SEARCHEDRESULT(state, payload){
       state.searchedResult = payload.filter(movie => movie.poster_path !== null);
-
-
-
     },
     GET_FAVMOVIES_FROM_LST(state){
       state.favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));

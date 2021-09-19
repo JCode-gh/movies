@@ -39,13 +39,11 @@ export default {
   },
   methods : {
     genreChange(event){
-      console.log(event.target );
       localStorage.setItem('genreIdSelected', document.querySelector("select").value);
       localStorage.setItem('genreIndexSelected', document.getElementById("genreSelect").selectedIndex)
 
       this.$store.commit("CLEAR_SEARCHEDRESULT");
       const genreId = event.target.value;
-      console.log(genreId);
       fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&with_genres=${genreId}`)
           .then(function (response) {
             return response.json();
@@ -62,6 +60,8 @@ export default {
       this.$router.push('/');
       localStorage.removeItem("genreIndexSelected");
       localStorage.removeItem("genreIdSelected");
+      this.$store.commit("CLEAR_USERINPUT");
+      document.querySelector('.form-control').value = "";
       this.$store.commit("SET_HASRESULTS_TRUE");
       this.$store.commit("CLEAR_SEARCHEDRESULT");
 
@@ -72,6 +72,8 @@ export default {
           .then(movies => {
             this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT",movies.results)
           })
+
+        document.getElementById("genreSelect").selectedIndex = 0;
     },
     kpHandler(e){
       if (e.key === 'Enter')
@@ -89,7 +91,6 @@ export default {
             })
             .then(movies => {
               this.$store.commit("MAKE_UNIQUE_SEARCHEDRESULT", movies.results);
-              console.log(movies);
             })
       }
     }
@@ -103,19 +104,13 @@ export default {
           this.genresList = genreListFull;
         })
   },
-  mounted() {
-    if (localStorage.getItem("genreIndexSelected")){
-      let num = parseInt(localStorage.getItem("genreIndexSelected"));
-      let index = parseInt(localStorage.getItem("genreIndexSelected"));
-      console.log(num);
-
-      //TODO: THIS IF STATEMENT DOESN'T WORK
-      if (document.querySelector("select")){
-        console.log("Select exists");
-        document.querySelector("select").selectedIndex = index;
+  updated() {
+    this.$nextTick(function () {
+      if (document.getElementById("genreSelect") !== null && localStorage.getItem("genreIndexSelected") !== null){
+        document.getElementById("genreSelect").selectedIndex = parseInt(localStorage.getItem("genreIndexSelected"));
       }
-    }
-  }
+    })
+  },
 }
 </script>
 

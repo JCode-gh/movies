@@ -1,14 +1,20 @@
 <template>
   <div class="fullMovieContainer">
     <div v-if="$store.state.hasResults === false">
-      <h1>No results</h1>
+      <h1
+          style="color: white;  position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    width: 100%;
+    transform: translate(-50%, -50%);">No results</h1>
     </div>
     <div class="d-flex flex-wrap justify-content-center" v-if="$store.state.searchedResult.length > 0">
       <div class="card" style="width: 18rem; margin: 20px"
            v-for="(movie,index) in $store.state.searchedResult"
            :style="{borderColor: isActive(movie) ? 'red' : 'darkgray'}" >
         <router-link :to="'/movieinfo'+`?${movie.id}`">
-          <img class="card-img-top" :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title"/>
+          <img class="image_placeholder card-img-top" :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title"/>
         </router-link>
         <div class="card-body">
           <router-link :to="'/movieinfo'+`?${movie.id}`">
@@ -36,7 +42,7 @@ export default {
   },
   data(){
     return {
-      isAdded : Boolean
+      isAdded : Boolean,
     }
   },
   computed : {
@@ -54,7 +60,7 @@ export default {
       else {
         await this.$store.commit('SET_FAVMOVIES', movie);
       }
-    }
+    },
   },
   beforeMount() {
     this.$store.commit("CLEAR_SEARCH_FAVMOVIES_ARRAYS");
@@ -76,7 +82,6 @@ export default {
           })
           .then(movies => {
             this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT",movies.results)
-            console.log(movies.results);
           })
     }
 
@@ -84,11 +89,15 @@ export default {
       this.$store.commit("GET_FAVMOVIES_FROM_LST");
     }
 
-  }
+  },
 }
 </script>
 
 <style scoped>
+.image_placeholder{
+  background: url('../../assets/placeholder.png') no-repeat !important;
+}
+
 .fullMovieContainer {
   margin-bottom: 4em;
 }
