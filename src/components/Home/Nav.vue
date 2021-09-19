@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import router from "../../router";
+
 export default {
   name: "Nav",
   data(){
@@ -64,14 +66,13 @@ export default {
       document.querySelector('.form-control').value = "";
       this.$store.commit("SET_HASRESULTS_TRUE");
       this.$store.commit("CLEAR_SEARCHEDRESULT");
-
-      fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
-          .then(function (response) {
-            return response.json();
-          })
-          .then(movies => {
-            this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT",movies.results)
-          })
+        fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
+            .then(function (response) {
+              return response.json();
+            })
+            .then(movies => {
+              this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT",movies.results)
+            })
 
         document.getElementById("genreSelect").selectedIndex = 0;
     },

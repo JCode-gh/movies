@@ -23,6 +23,7 @@ export default createStore({
     REMOVE_FAVMOVIE(state, payload){
       if (state.favoriteMovies.find(movie => movie.id === payload.id)){
         state.favoriteMovies = state.favoriteMovies.filter(movie => movie.id !== payload.id);
+        localStorage.setItem('favoriteMovies', JSON.stringify(state.favoriteMovies));
       }
     },
     CLEAR_SEARCHEDRESULT(state){

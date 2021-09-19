@@ -1,13 +1,7 @@
 <template>
   <div class="fullMovieContainer">
     <div v-if="$store.state.hasResults === false">
-      <h1
-          style="color: white;  position: fixed;
-    top: 50%;
-    left: 50%;
-    /* bring your own prefixes */
-    width: 100%;
-    transform: translate(-50%, -50%);">No results</h1>
+      <h1 id="noresults">No results</h1>
     </div>
     <div class="d-flex flex-wrap justify-content-center" v-if="$store.state.searchedResult.length > 0">
       <div class="card" style="width: 18rem; margin: 20px"
@@ -44,8 +38,6 @@ export default {
     return {
       isAdded : Boolean,
     }
-  },
-  computed : {
   },
   methods : {
     isActive(movie) {
@@ -94,6 +86,14 @@ export default {
 </script>
 
 <style scoped>
+#noresults {
+  color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
 .image_placeholder{
   background: url('../../assets/placeholder.png') no-repeat !important;
 }
