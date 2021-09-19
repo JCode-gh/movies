@@ -1,8 +1,10 @@
-<template>
+<template class="d-flex">
   <div class="card" style="width: 18rem; margin: 20px"
-       v-for="(movie,index) in collectionTitles">
+       v-for="(movie,index) in collectionTitles"
+       v-if="collectionTitles.length > 0">
     <router-link :to="'/movieinfo'+`?${movie.id}`">
-      <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" class="card-img-top" :alt="movie.title"/>
+      <img
+           :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" class="card-img-top" :alt="movie.title"/>
     </router-link>
     <div class="card-body">
       <router-link :to="'/movieinfo'+`?${movie.id}`">

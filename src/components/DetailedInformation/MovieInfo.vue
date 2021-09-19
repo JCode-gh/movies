@@ -6,8 +6,6 @@
       </div>
       <div class="col-md-8 m-auto">
         <div class="card-body">
-
-
           <h5 class="card-title">{{ movie.title }}</h5>
           <p class="card-text">{{ movie.overview }}</p>
           <p class="card-text">
@@ -24,11 +22,14 @@
           <div class="d-flex flex-column" >
             <div>
               <div>
+                <input v-if="collectionTitles.length > 0" type="button" id="collection" value="View Collection"
+                       @click="showModal()">
                 <input v-if="movie.homepage !== '' && !movie.homepage.includes('netflix')"
                        type="button" id="website" value="Visit Website"
                        @click="openWebsite(movie)">
 
-                <input v-if="movie.homepage !== '' && movie.homepage.includes('netflix')" type="button" value="Watch on Netflix"
+                <input v-if="movie.homepage !== '' && movie.homepage.includes('netflix')"
+                       type="button" value="Watch on Netflix"
                        @click="openWebsite(movie)">
               </div>
             </div>
@@ -42,7 +43,9 @@
       <LoadingSpinner/>
     </div>
   </div>
-  <AltTitles :collectionTitles="collectionTitles"/>
+  <div id="displayCollectionTitles" v-if="collectionTitles.length > 0">
+    <AltTitles :collectionTitles="collectionTitles"/>
+  </div>
 </template>
 
 <script>
@@ -55,7 +58,7 @@ export default {
   data: function () {
     return {
       movie: null,
-      collectionTitles : null
+      collectionTitles : []
     }
   },
   computed: {
@@ -66,27 +69,15 @@ export default {
     }
   },
   methods : {
-    translatePage(){
-      window.location = "#googtrans(en/ne)";
-      location.reload();
+    showModal(){
+      alert('Feature not added yet.')
     },
     hasMultipleGenres(movie){
       return movie.genres.length > 1;
     },
     openWebsite(movie){
       window.open(`${movie.homepage}`)
-    },
-    /*
-    async addToFavorites(movie) {
-      if (this.$store.state.favoriteMovies.find(mov => mov.id === movie.id)){
-        this.$store.commit("REMOVE_FAVMOVIE", movie);
-      }
-      else {
-        await this.$store.commit('SET_FAVMOVIES', movie);
-      }
     }
-
-     */
   },
   beforeMount() {
     const queryString = window.location.search;
@@ -106,7 +97,9 @@ export default {
                 return response.json();
               })
               .then(collection => {
-                this.collectionTitles = collection.titles;
+                console.log(collection);
+                if (collection.results.length > 0)
+                  this.collectionTitles = collection.results;
               })
         })
   }
@@ -115,6 +108,9 @@ export default {
 
 <style scoped>
 
+#displayCollectionTitles{
+  display: none;
+}
 * {
   transition: color 0.3s;
 }
