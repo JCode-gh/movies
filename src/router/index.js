@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import DetailedInformation from "../views/DetailedInformation";
 import Favorites from "../views/Favorites";
 import AltTitles from "../components/DetailedInformation/AltTitles";
+import Newest from "../views/Newest";
 
 const routes = [
   {
@@ -24,7 +25,12 @@ const routes = [
     path: '/collection',
     name: 'collection',
     component: AltTitles
-  }
+  },
+  {
+    path: '/newestmovies',
+    name: 'newestmovies',
+    component: Newest
+  },
 ]
 
 const router = createRouter({

@@ -35,6 +35,9 @@
             </div>
             <input type="button" id="goBack" value="Go back"
                    @click="$router.push('/');">
+
+            <!--<input type="button" id="fz" value="TEST ROUTER"
+                   @click="$router.push('/newestmovies');">-->
           </div>
         </div>
       </div>

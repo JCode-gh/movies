@@ -4,6 +4,7 @@ export default createStore({
   state: {
     userinput : "",
     searchedResult : [],
+    newestMovies : [],
     favoriteMovies : [],
     hasResults : true,
     apiKey : "ec8fb4c97f4c101a7e63dc22213b4106"
@@ -38,6 +39,9 @@ export default createStore({
     },
     INSERT_MOVIES_SEARCHEDRESULT(state, payload){
       state.searchedResult = payload.filter(movie => movie.poster_path !== null);
+    },
+    INSERT_MOVIES_NEWESTMOVIES(state,payload) {
+      state.newestMovies = payload.filter(movie => movie.poster_path !== null);
     },
     GET_FAVMOVIES_FROM_LST(state){
       state.favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies"));
