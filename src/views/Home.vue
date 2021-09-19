@@ -1,7 +1,7 @@
 <template>
   <div class="navcontainer">
-    <Nav/>
-    <Movies/>
+      <Nav/>
+      <Movies/>
   </div>
 </template>
 

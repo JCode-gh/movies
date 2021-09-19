@@ -1,5 +1,7 @@
 <template>
-  <router-view/>
+  <transition name="fade">
+    <router-view/>
+  </transition>
 </template>
 
 <script>
@@ -14,6 +16,17 @@ export default {
 </script>
 
 <style>
+.fade-enter-from,
+.fade-leave-to{
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-to{
+  transition: opacity 0.5s ease-out;
+}
+
+
 * {
   margin: 0;
   padding: 0 ;
@@ -27,6 +40,8 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
+
 
 
 </style>
