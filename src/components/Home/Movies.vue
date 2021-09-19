@@ -89,6 +89,9 @@ export default {
 </script>
 
 <style scoped>
+.fullMovieContainer {
+  margin-bottom: 4em;
+}
 .faicons {
   color: white;
   font-size: 20px;

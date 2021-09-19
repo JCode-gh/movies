@@ -155,4 +155,21 @@ ul {
 .faicons:hover,.faicons:focus, .faicons:visited {
   color: red !important;
 }
+
+@media only screen and (min-width: 768px){
+  .card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    width: 100%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .image {
+    justify-content: center;
+  }
+}
 </style>
