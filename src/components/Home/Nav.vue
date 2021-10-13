@@ -40,13 +40,13 @@ export default {
     }
   },
   methods : {
-    genreChange(event){
+    async genreChange(event) {
       localStorage.setItem('genreIdSelected', document.querySelector("select").value);
       localStorage.setItem('genreIndexSelected', document.getElementById("genreSelect").selectedIndex)
 
       this.$store.commit("CLEAR_SEARCHEDRESULT");
       const genreId = event.target.value;
-      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&with_genres=${genreId}`)
+      await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&with_genres=${genreId}`)
           .then(function (response) {
             return response.json();
           })
@@ -58,7 +58,7 @@ export default {
     pushFavorites(){
       this.$router.push('/favorites');
     },
-    showPopularMovies(){
+    async showPopularMovies() {
       this.$router.push('/');
       localStorage.removeItem("genreIndexSelected");
       localStorage.removeItem("genreIdSelected");
@@ -66,28 +66,28 @@ export default {
       document.querySelector('.form-control').value = "";
       this.$store.commit("SET_HASRESULTS_TRUE");
       this.$store.commit("CLEAR_SEARCHEDRESULT");
-        fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
-            .then(function (response) {
-              return response.json();
-            })
-            .then(movies => {
-              this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT",movies.results)
-            })
+      await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(movies => {
+            this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT", movies.results)
+          })
 
-        document.getElementById("genreSelect").selectedIndex = 0;
+      document.getElementById("genreSelect").selectedIndex = 0;
     },
     kpHandler(e){
       if (e.key === 'Enter')
         this.searchClicked();
     },
-    searchClicked(){
-      if (this.userInput !== this.$store.state.userinput){
+    async searchClicked() {
+      if (this.userInput !== this.$store.state.userinput) {
         localStorage.removeItem("genreIdSelected");
         localStorage.removeItem("genreIndexSelected");
         this.$store.state.userinput = this.userInput;
         this.$store.commit("CLEAR_SEARCHEDRESULT");
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.$store.state.apiKey}&language=en-US&query=${this.$store.state.userinput}&page=1&include_adult=false`)
-            .then(function (response){
+        await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.$store.state.apiKey}&language=en-US&query=${this.$store.state.userinput}&page=1&include_adult=false`)
+            .then(function (response) {
               return response.json();
             })
             .then(movies => {
@@ -96,8 +96,8 @@ export default {
       }
     }
   },
-  beforeMount() {
-    fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${this.$store.state.apiKey}&language=en-US`)
+  async beforeMount() {
+    await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${this.$store.state.apiKey}&language=en-US`)
         .then(function (response) {
           return response.json();
         })

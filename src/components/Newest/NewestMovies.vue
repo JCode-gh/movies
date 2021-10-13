@@ -50,8 +50,8 @@ export default {
       }
     },
   },
-  beforeMount() {
-    fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&language=en-US&sort_by=primary_release_date.desc&include_adult=false&include_video=false&page=1&primary_release_year=2021&primary_release_date.gte=2021&with_watch_monetization_types=flatrate`)
+  async beforeMount() {
+    await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&language=en-US&sort_by=primary_release_date.desc&include_adult=false&include_video=false&page=1&primary_release_year=2021&primary_release_date.gte=2021&with_watch_monetization_types=flatrate`)
         .then(function (response) {
           return response.json();
         })
