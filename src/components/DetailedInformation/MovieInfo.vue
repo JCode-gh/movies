@@ -41,6 +41,10 @@
           </div>
         </div>
       </div>
+      <div>
+        <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${trailer}`" title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </div>
     <div v-else>
       <LoadingSpinner/>
@@ -61,7 +65,8 @@ export default {
   data: function () {
     return {
       movie: null,
-      collectionTitles : []
+      collectionTitles : [],
+      trailer : null
     }
   },
   computed: {
@@ -80,6 +85,16 @@ export default {
     },
     openWebsite(movie){
       window.open(`${movie.homepage}`)
+    },
+    fetchTrailer(id){
+      fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${this.$store.state.apiKey}&language=en-US`)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(trailer => {
+            this.trailer = trailer.results[0].key;
+            console.log(this.trailer);
+          })
     }
   },
   async beforeMount() {
@@ -105,6 +120,7 @@ export default {
                   this.collectionTitles = collection.results;
               })
         })
+    this.fetchTrailer(id);
   }
 }
 </script>
