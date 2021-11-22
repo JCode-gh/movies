@@ -2,7 +2,8 @@
   <div class="card mb-3">
     <div v-if="movie" class="row g-0">
       <div class="col-md-4 image">
-        <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title" class="img-fluid rounded-start"/>
+        <img :src="'https://image.tmdb.org/t/p/w1280/'+movie.poster_path" :alt="movie.title"
+             class="img-fluid rounded-start"/>
       </div>
       <div class="col-md-8 m-auto">
         <div class="card-body">
@@ -11,7 +12,7 @@
           <p class="card-text">
             <small class="text-muted"
                    :style="{marginRight: hasMultipleGenres(movie) ? '2rem' : '0'}"
-                    v-for="genre in movie.genres">{{genre.name}}</small></p>
+                   v-for="genre in movie.genres">{{ genre.name }}</small></p>
           <star-rating class="mb-3 starrating" style="text-align: center; justify-content: center !important;"
                        :rating="movie.vote_average/2"
                        :increment="0.2"
@@ -19,7 +20,7 @@
                        :show-rating="false"
                        :star-size="20"
           />
-          <div class="d-flex flex-column" >
+          <div class="d-flex flex-column">
             <div>
               <div>
                 <input v-if="collectionTitles.length > 0" type="button" id="collection" value="View Collection"
@@ -41,10 +42,21 @@
           </div>
         </div>
       </div>
-      <div>
-        <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${trailer}`" title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="d-flex justify-content-evenly trailersection">
+
+        <div class="w-25 m-auto trailertextdiv">
+          <h3>TRAILER</h3>
+        </div>
+
+        <div class="trailerbg w-50">
+          <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${trailer}`" title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </div>
+
       </div>
+
     </div>
     <div v-else>
       <LoadingSpinner/>
@@ -59,34 +71,35 @@
 import AltTitles from "./AltTitles";
 import LoadingSpinner from "../LoadingAnimation/LoadingSpinner";
 import StarRating from 'vue-star-rating'
+
 export default {
   name: "MovieInfo",
   components: {LoadingSpinner, AltTitles, StarRating},
   data: function () {
     return {
       movie: null,
-      collectionTitles : [],
-      trailer : null
+      collectionTitles: [],
+      trailer: null
     }
   },
   computed: {
     isActive() {
-      if(!this.movie) return false
+      if (!this.movie) return false
       const storeData = this.$store.state.favoriteMovies || []
       return storeData.some(obj => obj.id === this.movie.id)
     }
   },
-  methods : {
-    showModal(){
+  methods: {
+    showModal() {
       alert('Feature not added yet.')
     },
-    hasMultipleGenres(movie){
+    hasMultipleGenres(movie) {
       return movie.genres.length > 1;
     },
-    openWebsite(movie){
+    openWebsite(movie) {
       window.open(`${movie.homepage}`)
     },
-    fetchTrailer(id){
+    fetchTrailer(id) {
       fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${this.$store.state.apiKey}&language=en-US`)
           .then(function (response) {
             return response.json();
@@ -127,9 +140,10 @@ export default {
 
 <style scoped>
 
-#displayCollectionTitles{
+#displayCollectionTitles {
   display: none;
 }
+
 * {
   transition: color 0.3s;
 }
@@ -138,9 +152,11 @@ img {
   width: 300px;
   box-shadow: 0 0 10px -2px black;
 }
-input:hover  {
+
+input:hover {
   color: red !important;
 }
+
 input {
   padding: 10px;
   background: black;
@@ -150,10 +166,26 @@ input {
   width: 100%;
   border-top: 2px solid white;
 }
+
 .card {
-  border: 4px dotted;
+  border: none;
 }
 
+.trailersection {
+  background-image: url(https://wpamelia.com/wp-content/uploads/2019/02/astronomy-constellation-dark-998641.jpg);
+  color: white;
+}
+
+.trailersection h3 {
+  font-size: 50px;
+  border-inline-start: solid;
+  writing-mode: horizontal-tb;
+}
+
+iframe {
+  margin-top: 1em;
+  border: 5px solid white;
+}
 
 .image {
   display: flex;
@@ -164,14 +196,16 @@ input {
 ul {
   list-style: none;
 }
+
 .faicons {
   font-size: 30px;
 }
-.faicons:hover,.faicons:focus, .faicons:visited {
+
+.faicons:hover, .faicons:focus, .faicons:visited {
   color: red !important;
 }
 
-@media only screen and (min-width: 768px){
+@media only screen and (min-width: 768px) {
   .card {
     position: fixed;
     top: 50%;
@@ -185,6 +219,20 @@ ul {
 @media only screen and (max-width: 768px) {
   .image {
     justify-content: center;
+  }
+
+  iframe {
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1200px){
+  .trailertextdiv {
+    display: none;
+  }
+
+  .trailerbg {
+    width: 100% !important;
   }
 }
 </style>
