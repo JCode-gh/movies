@@ -47,37 +47,36 @@ export default {
     },
     async addToFavorites(movie) {
       if (this.$store.state.favoriteMovies.find(mov => mov.id === movie.id)){
-        this.$store.commit("REMOVE_FAVMOVIE", movie);
+        await this.$store.commit("REMOVE_FAVMOVIE", movie);
       }
       else {
         await this.$store.commit('SET_FAVMOVIES', movie);
       }
     },
   },
-  beforeMount() {
+  async beforeMount() {
     this.$store.commit("CLEAR_SEARCH_FAVMOVIES_ARRAYS");
-    if (localStorage.getItem("genreIdSelected")){
+    if (localStorage.getItem("genreIdSelected")) {
       let genreId = localStorage.getItem("genreIdSelected");
 
-      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&with_genres=${genreId}`)
+      await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&with_genres=${genreId}`)
           .then(function (response) {
             return response.json();
           })
           .then(movies => {
             this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT", movies.results);
           })
-    }
-    else {
-      fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
+    } else {
+      await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
           .then(function (response) {
             return response.json();
           })
           .then(movies => {
-            this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT",movies.results)
+            this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT", movies.results)
           })
     }
 
-    if (localStorage.getItem("favoriteMovies")){
+    if (localStorage.getItem("favoriteMovies")) {
       this.$store.commit("GET_FAVMOVIES_FROM_LST");
     }
 

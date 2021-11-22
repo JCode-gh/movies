@@ -110,20 +110,20 @@ export default {
           })
     }
   },
-  beforeMount() {
+  async beforeMount() {
     const queryString = window.location.search;
     let id = queryString.split('?')[1];
 
     //Fetching details about movie
-    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.$store.state.apiKey}&language=en-US`)
+    await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.$store.state.apiKey}&language=en-US`)
         .then(function (response) {
           return response.json();
         })
-        .then(movie => {
+        .then(async movie => {
           this.movie = movie;
 
           // Fetching collections of movie
-          fetch(`https://api.themoviedb.org/3/search/collection?api_key=${this.$store.state.apiKey}&language=en-US&query=${movie.original_title}`)
+          await fetch(`https://api.themoviedb.org/3/search/collection?api_key=${this.$store.state.apiKey}&language=en-US&query=${movie.original_title}`)
               .then(function (response) {
                 return response.json();
               })

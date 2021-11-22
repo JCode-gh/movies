@@ -40,11 +40,11 @@ export default {
     pushFavorites() {
       this.$router.push('/favorites');
     },
-    showPopularMovies() {
+    async showPopularMovies() {
       this.$router.push('/');
       this.$store.commit("CLEAR_SEARCHEDRESULT");
 
-      fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
+      await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=1`)
           .then(function (response) {
             return response.json();
           })
