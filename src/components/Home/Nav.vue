@@ -38,20 +38,14 @@
             />
           </li>
         </ul>
-        <input
-          class="form-control mr-sm-2"
-          v-model="userInput"
-          placeholder="Search"
-          aria-label="Search"
-          @keypress="kpHandler"
-        />
-        <input
-          type="button"
-          style="color: white"
-          class="btn bg-gradient bg-danger btn-outline-danger my-2 my-sm-0"
-          @click="searchClicked"
-          value="Search"
-        />
+        <n-config-provider class="d-flex" :theme="darkTheme">
+          <n-input
+            v-model:value="userInput"
+            @keypress="kpHandler"
+            placeholder="Search"
+          ></n-input>
+          <n-button @click="searchClicked">Search</n-button>
+        </n-config-provider>
       </div>
     </nav>
     <nav
@@ -75,12 +69,17 @@
 
 <script>
 import router from "../../router";
-
+import { NInput, NButton, darkTheme, NConfigProvider } from "naive-ui";
 export default {
   name: "Nav",
+  components: {
+    NInput,
+    NButton,
+    NConfigProvider,
+  },
   data() {
     return {
-      userInput: "",
+      userInput: null,
       genresList: [],
     };
   },
@@ -133,7 +132,7 @@ export default {
       localStorage.removeItem("genreIndexSelected");
       localStorage.removeItem("genreIdSelected");
       this.$store.commit("CLEAR_USERINPUT");
-      document.querySelector(".form-control").value = "";
+      // document.querySelector(".form-control").value = "";
       this.$store.commit("SET_HASRESULTS_TRUE");
       this.$store.commit("CLEAR_SEARCHEDRESULT");
       await fetch(
@@ -192,6 +191,11 @@ export default {
       }
     });
   },
+  setup() {
+    return {
+      darkTheme,
+    };
+  },
 };
 </script>
 
@@ -224,7 +228,7 @@ sup {
   padding: 10px;
 }
 #navbarSupportedContent {
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-right: 3em;
 }
 
