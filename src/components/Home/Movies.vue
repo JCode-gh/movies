@@ -36,8 +36,7 @@
     </div>
     <div
       v-else-if="
-        $store.state.hasResults === true &&
-        $store.state.searchedResult.length <= 0
+        $store.state.hasResults === true && $store.state.searchedResult.length <= 0
       "
     >
       <LoadingSpinner />
@@ -83,7 +82,6 @@ export default {
           return response.json();
         })
         .then((movies) => {
-          console.log(movies);
           this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT", movies.results);
         });
     } else {

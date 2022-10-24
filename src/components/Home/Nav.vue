@@ -30,9 +30,7 @@
             <input
               type="button"
               class="nav-link"
-              :value="
-                'Favorites' + '(' + $store.state.favoriteMovies.length + ')'
-              "
+              :value="'Favorites' + '(' + $store.state.favoriteMovies.length + ')'"
               style="background: none; color: red; outline: none; border: none"
               @click="pushFavorites"
             />
@@ -55,11 +53,7 @@
     >
       <h5 id="genre">Genre</h5>
       <select id="genreSelect" @change="genreChange" class="form-select">
-        <option
-          v-for="genre in genresList.genres"
-          :value="genre.id"
-          :key="genre.id"
-        >
+        <option v-for="genre in genresList.genres" :value="genre.id" :key="genre.id">
           {{ genre.name }}
         </option>
       </select>
@@ -85,10 +79,7 @@ export default {
   },
   methods: {
     async genreChange(event) {
-      localStorage.setItem(
-        "genreIdSelected",
-        document.querySelector("select").value
-      );
+      localStorage.setItem("genreIdSelected", document.querySelector("select").value);
       localStorage.setItem(
         "genreIndexSelected",
         document.getElementById("genreSelect").selectedIndex
@@ -106,20 +97,17 @@ export default {
           await fetch(
             `https://api.themoviedb.org/3/discover/movie?api_key=${this.$store.state.apiKey}&with_genres=${genreId}&page=2`
           )
-            .then(function (response) {
+            .then((response) => {
               return response.json();
             })
             .then((secondMovies) => {
               let arr = [];
-
-              console.log(secondMovies);
               for (let mov of movies.results) {
                 arr.push(mov);
               }
               for (let movie of secondMovies.results) {
                 arr.push(movie);
               }
-              console.log(arr.length);
               this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT", arr);
             });
         });
