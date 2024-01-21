@@ -37,8 +37,12 @@ export default createStore({
     CLEAR_USERINPUT(state){
       state.userinput = "";
     },
-    INSERT_MOVIES_SEARCHEDRESULT(state, payload){
-      state.searchedResult = payload.filter(movie => movie.poster_path !== null);
+    INSERT_MOVIES_SEARCHEDRESULT(state, payload) {
+      // Filter out movies without a poster path
+      const filteredMovies = payload.filter(movie => movie.poster_path !== null);
+  
+      // Append the new movies to the existing array
+      state.searchedResult = [...state.searchedResult, ...filteredMovies];
     },
     INSERT_MOVIES_NEWESTMOVIES(state,payload) {
       state.newestMovies = payload.filter(movie => movie.poster_path !== null);

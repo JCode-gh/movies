@@ -6,12 +6,14 @@
     <div
       class="d-flex flex-wrap justify-content-center"
       v-if="$store.state.searchedResult.length > 0"
+      ref="movieContainer"
     >
       <div
         class="card"
         style="width: 18rem; margin: 20px"
         v-for="(movie, index) in $store.state.searchedResult"
         :style="{ borderColor: isActive(movie) ? 'red' : 'darkgray' }"
+        :ref="index === $store.state.searchedResult.length - 1 ? 'lastMovie' : ''"
       >
         <router-link :to="'/movieinfo' + `?${movie.id}`">
           <img
@@ -41,22 +43,73 @@
     >
       <LoadingSpinner />
     </div>
+    <div ref="sentinel" class="sentinel"></div>
   </div>
 </template>
 
+
 <script>
 import LoadingSpinner from "../LoadingAnimation/LoadingSpinner";
+import {NButton} from "naive-ui";
 export default {
   name: "TopMovies",
   components: {
     LoadingSpinner,
+    NButton,
   },
   data() {
     return {
+      currentPage: 1,
       isAdded: Boolean,
+      movieContainer: null,
     };
   },
   methods: {
+    handleScroll() {
+      const movieContainer = this.$refs.movieContainer;
+      console.log(movieContainer);
+      if (this.movieContainer) {
+        const containerHeight = movieContainer.clientHeight;
+        const scrollTop = movieContainer.scrollTop;
+        const scrollHeight = movieContainer.scrollHeight;
+        
+        // Adjust the threshold as needed
+        const threshold = 100;
+
+        // Check if we are near the bottom of the container
+        if (scrollHeight - (scrollTop + containerHeight) < threshold) {
+          // Load the next page when near the bottom
+          this.loadNextPage();
+        }
+      }
+    },
+    async loadNextPage() {
+      // Increment the page number
+      this.currentPage++;
+
+      // Update the API URL to include the current page
+      const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${this.$store.state.apiKey}&language=en-US&page=${this.currentPage}`;
+
+      console.log("Loading next page", this.currentPage); // Debug log
+
+      try {
+        const response = await fetch(apiUrl);
+        const movies = await response.json();
+
+        // Check if there are results
+        if (movies.results.length > 0) {
+          // Append the new results to the existing results
+          this.$store.commit("INSERT_MOVIES_SEARCHEDRESULT", movies.results);
+
+          console.log("New movies loaded", movies.results); // Debug log
+        } else {
+          // No more results, handle accordingly
+          console.log("No more results");
+        }
+      } catch (error) {
+        console.error("Error loading next page:", error);
+      }
+    },
     isActive(movie) {
       if (!movie) return false;
       const storeData = this.$store.state.favoriteMovies || [];
@@ -69,9 +122,53 @@ export default {
         await this.$store.commit("SET_FAVMOVIES", movie);
       }
     },
+    handleIntersection(entries) {
+      const sentinelEntry = entries[0];
+      if (sentinelEntry.isIntersecting) {
+        console.log("Sentinel is intersecting"); // Debug log
+        this.loadNextPage();
+      }
+    },
   },
-  async beforeMount() {
+  beforeDestroy() {
+    // Remove the scroll event listener when the component is destroyed
+    const movieContainer = this.$refs.movieContainer;
+    if (movieContainer) {
+      movieContainer.removeEventListener("scroll", this.handleScroll);
+    }
+  },
+  async mounted() {
     this.$store.commit("CLEAR_SEARCH_FAVMOVIES_ARRAYS");
+
+     // Use $nextTick to ensure the DOM is rendered
+     this.$nextTick(() => {
+      // Access the DOM element after it's rendered
+      this.movieContainer = this.$refs.movieContainer;
+
+      // Create an Intersection Observer to detect when the last movie card is in view
+     // Adjusted Intersection Observer setup
+     const observer = new IntersectionObserver(this.handleIntersection, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
+    });
+
+    // Observe the sentinel element
+    const sentinel = this.$refs.sentinel;
+    if (sentinel) {
+        observer.observe(sentinel);
+        console.log("Observer initialized for sentinel"); // Debug log
+      } else {
+        console.error("Sentinel not found"); // Error log
+      }
+
+      // Add a scroll event listener to the movie container
+      console.log(this.movieContainer);
+      if (this.movieContainer) {
+        this.movieContainer.addEventListener("scroll", this.handleScroll);
+      }
+    });
+
     if (localStorage.getItem("genreIdSelected")) {
       let genreId = localStorage.getItem("genreIdSelected");
 
@@ -151,4 +248,8 @@ a:hover {
   margin: auto !important;
   flex: none;
 }
+
+.sentinel {
+    height: 1px;
+  }
 </style>

@@ -17,6 +17,7 @@
               class="text-muted"
               :style="{ marginRight: hasMultipleGenres(movie) ? '2rem' : '0' }"
               v-for="genre in movie.genres"
+              :key="genre"
               >{{ genre.name }}</small
             >
           </p>
@@ -33,21 +34,6 @@
             <div>
               <div>
                 <input
-                  v-if="collectionTitles.length > 0"
-                  type="button"
-                  id="collection"
-                  value="View Collection"
-                  @click="showModal()"
-                />
-                <input
-                  v-if="movie.homepage !== '' && !movie.homepage.includes('netflix')"
-                  type="button"
-                  id="website"
-                  value="Visit Website"
-                  @click="openWebsite(movie)"
-                />
-
-                <input
                   v-if="movie.homepage !== '' && movie.homepage.includes('netflix')"
                   type="button"
                   value="Watch on Netflix"
@@ -55,6 +41,13 @@
                 />
               </div>
             </div>
+            <button
+              style="background: black"
+              value="Add to Plex"
+              @click="addMovieToPlexServer(movie.title)"
+            >
+              <img src="../../assets/plex.jpeg" />
+            </button>
             <input type="button" id="goBack" value="Go back" @click="$router.push('/')" />
 
             <!--<input type="button" id="fz" value="TEST ROUTER"
@@ -112,6 +105,26 @@ export default {
     },
   },
   methods: {
+    addMovieToPlexServer(title) {
+      fetch(`http://192.168.0.136:3000/download`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: title,
+        }),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then((data) => {
+          alert(data.message);
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
     showModal() {
       alert("Feature not added yet.");
     },
