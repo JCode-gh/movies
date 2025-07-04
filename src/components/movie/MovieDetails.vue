@@ -150,16 +150,16 @@
 
           <!-- Trailer Section -->
           <div v-if="trailerKey" class="mt-16">
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-2xl font-bold text-white mb-6 text-center">Trailer</h2>
-              <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
+            <div class="max-w-6xl mx-auto">
+              <h2 class="text-3xl font-bold text-white mb-8 text-center">Watch Trailer</h2>
+              <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-black/50 bg-slate-900">
                 <iframe
-                  :src="`https://www.youtube.com/embed/${trailerKey}`"
+                  :src="`https://www.youtube.com/embed/${trailerKey}?autoplay=0&rel=0&modestbranding=1`"
                   title="Movie Trailer"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen
-                  class="w-full h-full"
+                  class="absolute top-0 left-0 w-full h-full"
                 ></iframe>
               </div>
             </div>
