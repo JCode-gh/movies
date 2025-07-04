@@ -36,7 +36,7 @@
             />
           </li>
         </ul>
-        <n-config-provider class="d-flex" :theme="darkTheme">
+        <n-config-provider>
           <n-input
             v-model:value="userInput"
             @keypress="kpHandler"
@@ -63,7 +63,7 @@
 
 <script>
 import router from "../../router";
-import { NInput, NButton, darkTheme, NConfigProvider } from "naive-ui";
+import { NInput, NButton, NConfigProvider } from "naive-ui";
 export default {
   name: "Nav",
   components: {
@@ -178,11 +178,6 @@ export default {
         );
       }
     });
-  },
-  setup() {
-    return {
-      darkTheme,
-    };
   },
 };
 </script>

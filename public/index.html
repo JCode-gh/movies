@@ -1,38 +1,61 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en" class="dark">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Movies</title>
-      <link rel="dns-prefetch" href="https://developers.themoviedb.org/">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.2.0/css/all.css">
-      <style>
-          ::-webkit-scrollbar {
-              display: none;
-          }
-          * {
-              -ms-overflow-style: none;  /* IE and Edge */
-              scrollbar-width: none;  /* Firefox */
-          }
-          body {
-              background-image: url("https://wpamelia.com/wp-content/uploads/2019/02/astronomy-constellation-dark-998641.jpg");
-              background-size: cover;
-          }
-          @media only screen and (max-width: 992px){
-              body {
-                  background-size: inherit;
-              }
-          }
-      </style>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0">
+    <meta name="description" content="Discover and manage your favorite movies with our modern, mobile-friendly movie database.">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CineHub">
+    <title>CineHub - Your Movie Discovery Platform</title>
+    
+    <!-- Preconnect to external domains for better performance -->
+    <link rel="preconnect" href="https://api.themoviedb.org">
+    <link rel="preconnect" href="https://image.tmdb.org">
+    <link rel="dns-prefetch" href="https://developers.themoviedb.org/">
+    
+    <!-- Favicon and PWA Manifest -->
+    <link rel="icon" href="/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <style>
+      #app {
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      #app.loading {
+        opacity: 0;
+      }
+      
+      /* Prevent layout shift during font loading */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+    </style>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; font-family: system-ui; background: #0f172a; color: white;">
+        <div>
+          <h1>JavaScript Required</h1>
+          <p>CineHub requires JavaScript to be enabled. Please enable it to continue.</p>
+        </div>
+      </div>
     </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <div id="app" class="loading"></div>
+    
+    <!-- Remove loading class when app is ready -->
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+          document.getElementById('app').classList.remove('loading');
+        }, 100);
+      });
+    </script>
   </body>
 </html>

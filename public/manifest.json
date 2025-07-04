@@ -1,0 +1,35 @@
+{
+  "name": "CineHub - Movie Discovery Platform",
+  "short_name": "CineHub",
+  "description": "Discover and manage your favorite movies with our modern, mobile-friendly movie database.",
+  "theme_color": "#7c3aed",
+  "background_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["entertainment", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Latest Movies",
+      "short_name": "Latest",
+      "description": "View the newest movies",
+      "url": "/newestmovies",
+      "icons": [{ "src": "/favicon.ico", "sizes": "48x48" }]
+    },
+    {
+      "name": "My Favorites",
+      "short_name": "Favorites",
+      "description": "View your favorite movies",
+      "url": "/favorites",
+      "icons": [{ "src": "/favicon.ico", "sizes": "48x48" }]
+    }
+  ]
+} 

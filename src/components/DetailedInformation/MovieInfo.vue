@@ -41,13 +41,7 @@
                 />
               </div>
             </div>
-            <button
-              style="background: black"
-              value="Add to Plex"
-              @click="addMovieToPlexServer(movie.title)"
-            >
-              <img src="../../assets/plex.jpeg" />
-            </button>
+          
             <input type="button" id="goBack" value="Go back" @click="$router.push('/')" />
 
             <!--<input type="button" id="fz" value="TEST ROUTER"
